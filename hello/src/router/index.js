@@ -1,27 +1,79 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Router from 'vue-router'
 
-Vue.use(VueRouter)
+import Home from '../pages/home'
+import Index from '../pages/index'
+import Product from '../pages/product'
+import Detail from '../pages/detail'
 
-  const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+import Cart from '../pages/cart'
 
-const router = new VueRouter({
-  routes
+import Order from '../pages/order'
+import OrderList from '../pages/orderList'
+import OrderConfirm from '../pages/orderConfirm'
+import OrderPay from '../pages/orderPay'
+
+import AliPay from '../pages/alipay'
+
+
+Vue.use(Router);
+
+export default new Router({
+    routes:[
+        {
+            path: '/',
+            name: 'home',
+            component: Home,
+            redirect: '/index',
+            children:[
+                {
+                    path: '/index',
+                    name: 'index',
+                    component: Index
+                },
+                {
+                    path: '/product/:id',
+                    name: 'product',
+                    component: Product
+                },
+                {
+                    path: '/detail/:id',
+                    name: 'detail',
+                    component: Detail
+                }
+            ]
+        },
+        {
+            path: '/cart',
+            name: 'cart',
+            component: Cart
+        },
+        {
+            path: '/order',
+            name: 'order',
+            component: Order,
+            children:[
+                {
+                    path: 'list',
+                    name: 'order-list',
+                    component: OrderList
+                },
+                {
+                    path: 'pay',
+                    name: 'order-pay',
+                    component: OrderPay
+                },
+                {
+                    path: 'comfirm',
+                    name: 'order-confirm',
+                    component: OrderConfirm
+                },
+                {
+                    path: 'alipay',
+                    name: 'ali-pay',
+                    component: AliPay
+                }
+            ]
+        }
+    ]
 })
-
-export default router
